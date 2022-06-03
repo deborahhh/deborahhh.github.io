@@ -1,74 +1,123 @@
 
 <body>
-    <title>Alice - Sono</title>
+    <title>Calculadora Alice</title>
 <script>
-    // Resposta de P4
+
+    // perguntas do questionário
+    let quest = [{
+        question: "Você ronca?",
+        answers: [
+            { text: "Sim", points: 1 },
+            { text: "Não", points: 0 },
+            { text: "Não sei", points: 0 }
+        ]
+    }, {
+        question: "Seu ronco é...",
+        answers: [
+            { text: "Pouco mais alto que a sua respiração", points: 0 },
+            { text: "Tão alto quanto falando", points: 0 },
+            { text: "Mais alto do que falando", points: 1 },
+            { text: "Muito alto que pode ser ouvido nos quartos próximos", points: 1 }
+        ]
+    }, {
+        question: "Com que frequência você ronca?",
+        answers: [
+            { text: "Praticamente todos os dias", points: 1 },
+            { text: "3 a 4 vezes por semana", points: 1 },
+            { text: "1 a 2 vezes por semana", points: 0 },
+            { text: "Nunca ou praticamente nunca", points: 0 },
+        ]
+    }, {
+        question: "O seu ronco incomoda alguém?",
+        answers: [
+            { text: "Sim", points: 1 },
+            { text: "Não", points: 0 },
+        ]
+    }, {
+        question: "Alguém notou que você pára de respirar enquanto dorme?",
+        answers: [
+            { text: "Praticamente todos os dias", points: 1 },
+            { text: "3 a 4 vezes por semana", points: 1 },
+            { text: "1 a 2 vezes por semana", points: 0 },
+            { text: "Nunca ou praticamente nunca", points: 0 },
+        ]
+    }, {
+        question: "Quantas vezes você se sente cansado ou com fadiga depois de acordar?",
+        answers: [
+            { text: "Praticamente todos os dias", points: 1 },
+            { text: "3 a 4 vezes por semana", points: 1 },
+            { text: "1 a 2 vezes por semana", points: 0 },
+            { text: "Nunca ou praticamente nunca", points: 0 },
+        ]
+    }, {
+        question: "Quando você está acordado você se sente cansado, fatigado ou não se sente bem?",
+        answers: [
+            { text: "Praticamente todos os dias", points: 1 },
+            { text: "3 a 4 vezes por semana", points: 1 },
+            { text: "1 a 2 vezes por semana", points: 0 },
+            { text: "Nunca ou praticamente nunca", points: 0 },
+        ]
+    }, {
+        question: "Alguma vez você cochilou ou caiu no sono enquanto dirigia?",
+        answers: [
+            { text: "Sim", points: 1 },
+            { text: "Não", points: 0 },
+        ]
+    }, {
+        question: "Você tem pressão alta?",
+        answers: [
+            { text: "Sim", points: 1 },
+            { text: "Não", points: 0 },
+            { text: "Não sei", points: 0 }
+        ]
+    }, {
+        question: "IMC > 30?",
+        answers: [
+            { text: "Sim", points: 1 },
+            { text: "Não", points: 0 }
+        ]
+    }]
 
 
-    //Tabulação dos questionários
-    function scoreGAD7(){
+    // renderizando o html
+    let html = "<ul>";
 
-        if (document.getElementById("q1GAD7").value == "nulo" || document.getElementById("q4GAD7").value == "nulo" || document.getElementById("q7GAD7").value == "nulo" ||
-        document.getElementById("q2GAD7").value == "nulo" || document.getElementById("q5GAD7").value == "nulo" || document.getElementById("q8GAD7").value == "nulo" ||
-        document.getElementById("q3GAD7").value == "nulo" || document.getElementById("q6GAD7").value== "nulo" || document.getElementById("q9GAD7").value == "nulo" || document.getElementById("q10GAD7").value == "nulo")
-        {
-            alert("Completar todas as respostas")
-            return
-        }
+    quest.forEach((q, idx) => {
+        html += "<li>" + q.question;
+        html += "<select id=\"q" + idx + "\">";
+        q.answers.forEach((a, jdx) => {
+            html += "<option value=\"" + jdx + "\">" + a.text + "</option>";
+        })
+        html += "</select></li>";
+    })
 
-        let contador = 0
-        let mapRespostas = {"val0": 1,"val1": 2,"val2": 3,"val3": 4,"val4": 5,"val5": 6,"val6": 7}
-        let currResposta = ""
+    html += "</ul>";
 
-        //calculo das respostas q1
-        currResposta = document.getElementById("q1GAD7").value
-        contador += mapRespostas[currResposta]
+    window.addEventListener("DOMContentLoaded", function() {
+        document.getElementById("container").innerHTML = html;
+    }, false);
 
-        //calculo das respostas q2
-        currResposta = document.getElementById("q2GAD7").value
-        contador += mapRespostas[currResposta]
+    // calculando os pontos
+    function calculate() {
+        let p1 = 0, p2 = 0, p3 = 0;
+        quest.forEach((q, idx) => {
+            let ans = parseInt(document.getElementById("q" + idx).value);
+            let ptsToAdd = q.answers[ans].points;
+            if (idx <= 4) {
+                p1 += ptsToAdd;
+            } else if (idx <= 7) {
+                p2 += ptsToAdd;
+            } else {
+                p3 += ptsToAdd;
+            }
+        })
+        let r1 = (p1 >= 2) ? 1 : 0,
+            r2 = (p2 >= 2) ? 1 : 0,
+            r3 = (p3 >= 2) ? 1 : 0;
+        
+        let msg = (r1+r2+r3 >= 2) ? "Alto risco" : "Baixo risco";
 
-        //calculo das respostas q3
-        currResposta = document.getElementById("q3GAD7").value
-        contador += mapRespostas[currResposta]
-
-        //calculo das respostas q4
-        currResposta = document.getElementById("q4GAD7").value
-        contador += mapRespostas[currResposta]
-
-        //calculo das respostas q5
-        currResposta = document.getElementById("q5GAD7").value
-        contador += mapRespostas[currResposta]
-
-        //calculo das respostas q6
-        currResposta = document.getElementById("q6GAD7").value
-        contador += mapRespostas[currResposta]
-
-        //calculo das respostas q7
-        currResposta = document.getElementById("q7GAD7").value
-        contador += mapRespostas[currResposta]
-
-        //calculo das respostas q8
-        currResposta = document.getElementById("q8GAD7").value
-        contador += mapRespostas[currResposta]
-
-        //calculo das respostas q9
-        currResposta = document.getElementById("q9GAD7").value
-        contador += mapRespostas[currResposta]
-
-        //calculo das respostas q10
-        currResposta = document.getElementById("q10GAD7").value
-        contador += mapRespostas[currResposta]
-
-        //calcular qualidade do sono
-        let qualidadeDoSono = ""
-        if(contador>30){qualidadeDoSono="sono muito alterado"}
-        else if (contador>=28){qualidadeDoSono="sono moderadamente alterado"}
-        else if (contador>=25){qualidadeDoSono="sono levemente alterado"}
-        else if (contador>=10){qualidadeDoSono="sono bom"}
-
-        alert(`Resultado: `+qualidadeDoSono+ '/ Pontuação: '+contador)
-        return (contador)
+        alert(msg);
     }
 
 
@@ -76,110 +125,8 @@
 
 <p>&nbsp;</p>
 <div id="perguntas">
-    <p style="font-weight: bold;">Alice - MINI-QUESTION&Aacute;RIO DO SONO</p>
+    <p style="font-weight: bold;">Alice - Questionário de Berlim</p>
     <p>Por favor, assinale a opção que melhor descreva sua resposta.</p>
-    <ul>
-        <li> Você tem dificuldade para adormecer à noite?<select id="q1GAD7">
-            <option value="nulo">-</option>
-            <option value="val0">Nunca</option>
-            <option value="val1">Muito raramente</option>
-            <option value="val2">Raramente</option>
-            <option value="val3">As vezes</option>
-            <option value="val4">Frequentemente</option>
-            <option value="val5">Muito frequentemente</option>
-            <option value="val6">Sempre</option>
-        </select></li>
-        <li>Você acorda de madrugada e não consegue adormecer de novo? <select id="q2GAD7">
-            <option value="nulo">-</option>
-            <option value="val0">Nunca</option>
-            <option value="val1">Muito raramente</option>
-            <option value="val2">Raramente</option>
-            <option value="val3">As vezes</option>
-            <option value="val4">Frequentemente</option>
-            <option value="val5">Muito frequentemente</option>
-            <option value="val6">Sempre</option>
-        </select></li>
-        <li>Você toma remédios para dormir ou tranquilizantes? <select id="q3GAD7">
-            <option value="nulo">-</option>
-            <option value="val0">Nunca</option>
-            <option value="val1">Muito raramente</option>
-            <option value="val2">Raramente</option>
-            <option value="val3">As vezes</option>
-            <option value="val4">Frequentemente</option>
-            <option value="val5">Muito frequentemente</option>
-            <option value="val6">Sempre</option>
-        </select></li>
-        <li>Você dorme durante o dia?<select id="q4GAD7">
-            <option value="nulo">-</option>
-            <option value="val0">Nunca</option>
-            <option value="val1">Muito raramente</option>
-            <option value="val2">Raramente</option>
-            <option value="val3">As vezes</option>
-            <option value="val4">Frequentemente</option>
-            <option value="val5">Muito frequentemente</option>
-            <option value="val6">Sempre</option>
-        </select></li>
-        <li>Ao acordar de manhã, você ainda se sente cansado(a)?<select id="q5GAD7">
-            <option value="nulo">-</option>
-            <option value="val0">Nunca</option>
-            <option value="val1">Muito raramente</option>
-            <option value="val2">Raramente</option>
-            <option value="val3">As vezes</option>
-            <option value="val4">Frequentemente</option>
-            <option value="val5">Muito frequentemente</option>
-            <option value="val6">Sempre</option>
-        </select></li>
-        <li>Você ronca à noite (que você saiba)? <select id="q6GAD7">
-            <option value="nulo">-</option>
-            <option value="val0">Nunca</option>
-            <option value="val1">Muito raramente</option>
-            <option value="val2">Raramente</option>
-            <option value="val3">As vezes</option>
-            <option value="val4">Frequentemente</option>
-            <option value="val5">Muito frequentemente</option>
-            <option value="val6">Sempre</option>
-        </select></li>
-        <li>Você acorda durante a noite? <select id="q7GAD7">
-            <option value="nulo">-</option>
-            <option value="val0">Nunca</option>
-            <option value="val1">Muito raramente</option>
-            <option value="val2">Raramente</option>
-            <option value="val3">As vezes</option>
-            <option value="val4">Frequentemente</option>
-            <option value="val5">Muito frequentemente</option>
-            <option value="val6">Sempre</option>
-        </select></li>
-        <li> Você acorda com dor de cabeça? <select id="q8GAD7">
-            <option value="nulo">-</option>
-            <option value="val0">Nunca</option>
-            <option value="val1">Muito raramente</option>
-            <option value="val2">Raramente</option>
-            <option value="val3">As vezes</option>
-            <option value="val4">Frequentemente</option>
-            <option value="val5">Muito frequentemente</option>
-            <option value="val6">Sempre</option>
-        </select></li>
-        <li>Você sente cansaço sem ter nenhum motivo aparente?  <select id="q9GAD7">
-            <option value="nulo">-</option>
-            <option value="val0">Nunca</option>
-            <option value="val1">Muito raramente</option>
-            <option value="val2">Raramente</option>
-            <option value="val3">As vezes</option>
-            <option value="val4">Frequentemente</option>
-            <option value="val5">Muito frequentemente</option>
-            <option value="val6">Sempre</option>
-        </select></li>
-        <li>Você tem sono agitado? (Mudanças constantes de posição ou movimentos de pernas/braços)?  <select id="q10GAD7">
-            <option value="nulo">-</option>
-            <option value="val0">Nunca</option>
-            <option value="val1">Muito raramente</option>
-            <option value="val2">Raramente</option>
-            <option value="val3">As vezes</option>
-            <option value="val4">Frequentemente</option>
-            <option value="val5">Muito frequentemente</option>
-            <option value="val6">Sempre</option>
-        </select></li>
-    </ul>
-    <button id="p4_1" onclick=scoreGAD7()>Submeter</button></div>
-    <!-- //Nao mudar -->
+    <div id="container"></div>
+    <button id="submit" onclick=calculate()>Submeter</button></div>
 </body>
