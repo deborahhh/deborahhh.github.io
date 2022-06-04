@@ -2,137 +2,186 @@
 
     <title>Calculadora Alice</title>
     <style>
-        * { font-family: sans-serif; }
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+        * { font-family: 'Montserrat', sans-serif; }
+        h2 { 
+            color: #E10096;
+            font-weight: 600;
+            text-align: center;
+        }
+        p, select, table {
+            font-size: small;
+        }
+        select {
+            width: 240px;
+        }
+        button {
+            background-color: #E10096;
+            border: 0;
+            font-size: large;
+            color: white;
+            padding: 8px 16px;
+        }
+        .btn-container {
+            padding: 20px;
+            text-align: center;
+        }
+        #content {
+            padding: 16px 32px;
+            border: 2px solid #E10096;
+            width: 100%;
+            max-width: 720px;
+        }
+        #result {
+            background-color: #001c69;
+            padding: 16px 32px;
+            position: relative;
+            color: white;
+            font-size: large;
+            text-align: center;
+        }
+
+
 
     </style>
 </head>
 <body>
-<script>
+    <script>
 
-    // perguntas do questionário
-    let quest = [{
-        question: "Você ronca?",
-        answers: [
-            { text: "Sim", points: 1 },
-            { text: "Não", points: 0 },
-            { text: "Não sei", points: 0 }
-        ]
-    }, {
-        question: "Seu ronco é...",
-        answers: [
-            { text: "Pouco mais alto que a sua respiração", points: 0 },
-            { text: "Tão alto quanto falando", points: 0 },
-            { text: "Mais alto do que falando", points: 1 },
-            { text: "Muito alto que pode ser ouvido nos quartos próximos", points: 1 }
-        ]
-    }, {
-        question: "Com que frequência você ronca?",
-        answers: [
-            { text: "Praticamente todos os dias", points: 1 },
-            { text: "3 a 4 vezes por semana", points: 1 },
-            { text: "1 a 2 vezes por semana", points: 0 },
-            { text: "Nunca ou praticamente nunca", points: 0 },
-        ]
-    }, {
-        question: "O seu ronco incomoda alguém?",
-        answers: [
-            { text: "Sim", points: 1 },
-            { text: "Não", points: 0 },
-        ]
-    }, {
-        question: "Alguém notou que você pára de respirar enquanto dorme?",
-        answers: [
-            { text: "Praticamente todos os dias", points: 1 },
-            { text: "3 a 4 vezes por semana", points: 1 },
-            { text: "1 a 2 vezes por semana", points: 0 },
-            { text: "Nunca ou praticamente nunca", points: 0 },
-        ]
-    }, {
-        question: "Quantas vezes você se sente cansado ou com fadiga depois de acordar?",
-        answers: [
-            { text: "Praticamente todos os dias", points: 1 },
-            { text: "3 a 4 vezes por semana", points: 1 },
-            { text: "1 a 2 vezes por semana", points: 0 },
-            { text: "Nunca ou praticamente nunca", points: 0 },
-        ]
-    }, {
-        question: "Quando você está acordado você se sente cansado, fatigado ou não se sente bem?",
-        answers: [
-            { text: "Praticamente todos os dias", points: 1 },
-            { text: "3 a 4 vezes por semana", points: 1 },
-            { text: "1 a 2 vezes por semana", points: 0 },
-            { text: "Nunca ou praticamente nunca", points: 0 },
-        ]
-    }, {
-        question: "Alguma vez você cochilou ou caiu no sono enquanto dirigia?",
-        answers: [
-            { text: "Sim", points: 1 },
-            { text: "Não", points: 0 },
-        ]
-    }, {
-        question: "Você tem pressão alta?",
-        answers: [
-            { text: "Sim", points: 1 },
-            { text: "Não", points: 0 },
-            { text: "Não sei", points: 0 }
-        ]
-    }, {
-        question: "IMC > 30?",
-        answers: [
-            { text: "Sim", points: 1 },
-            { text: "Não", points: 0 }
-        ]
-    }]
+        // perguntas do questionário
+        let quest = [{
+            question: "Você ronca?",
+            answers: [
+                { text: "Sim", points: 1 },
+                { text: "Não", points: 0 },
+                { text: "Não sei", points: 0 }
+            ]
+        }, {
+            question: "Seu ronco é...",
+            answers: [
+                { text: "Pouco mais alto que a sua respiração", points: 0 },
+                { text: "Tão alto quanto falando", points: 0 },
+                { text: "Mais alto do que falando", points: 1 },
+                { text: "Muito alto que pode ser ouvido nos quartos próximos", points: 1 }
+            ]
+        }, {
+            question: "Com que frequência você ronca?",
+            answers: [
+                { text: "Praticamente todos os dias", points: 1 },
+                { text: "3 a 4 vezes por semana", points: 1 },
+                { text: "1 a 2 vezes por semana", points: 0 },
+                { text: "Nunca ou praticamente nunca", points: 0 },
+            ]
+        }, {
+            question: "O seu ronco incomoda alguém?",
+            answers: [
+                { text: "Sim", points: 1 },
+                { text: "Não", points: 0 },
+            ]
+        }, {
+            question: "Alguém notou que você pára de respirar enquanto dorme?",
+            answers: [
+                { text: "Praticamente todos os dias", points: 1 },
+                { text: "3 a 4 vezes por semana", points: 1 },
+                { text: "1 a 2 vezes por semana", points: 0 },
+                { text: "Nunca ou praticamente nunca", points: 0 },
+            ]
+        }, {
+            question: "Quantas vezes você se sente cansado ou com fadiga depois de acordar?",
+            answers: [
+                { text: "Praticamente todos os dias", points: 1 },
+                { text: "3 a 4 vezes por semana", points: 1 },
+                { text: "1 a 2 vezes por semana", points: 0 },
+                { text: "Nunca ou praticamente nunca", points: 0 },
+            ]
+        }, {
+            question: "Quando você está acordado você se sente cansado, fatigado ou não se sente bem?",
+            answers: [
+                { text: "Praticamente todos os dias", points: 1 },
+                { text: "3 a 4 vezes por semana", points: 1 },
+                { text: "1 a 2 vezes por semana", points: 0 },
+                { text: "Nunca ou praticamente nunca", points: 0 },
+            ]
+        }, {
+            question: "Alguma vez você cochilou ou caiu no sono enquanto dirigia?",
+            answers: [
+                { text: "Sim", points: 1 },
+                { text: "Não", points: 0 },
+            ]
+        }, {
+            question: "Você tem pressão alta?",
+            answers: [
+                { text: "Sim", points: 1 },
+                { text: "Não", points: 0 },
+                { text: "Não sei", points: 0 }
+            ]
+        }, {
+            question: "IMC > 30?",
+            answers: [
+                { text: "Sim", points: 1 },
+                { text: "Não", points: 0 }
+            ]
+        }]
 
 
-    // renderizando o html
-    let html = "<table>";
+        // renderizando o html
+        let html = "<table>";
 
-    quest.forEach((q, idx) => {
-        html += "<tr><td>" + q.question + "</td>";
-        html += "<td><select id=\"q" + idx + "\">";
-        q.answers.forEach((a, jdx) => {
-            html += "<option value=\"" + jdx + "\">" + a.text + "</option>";
-        })
-        html += "</select></td></tr>";
-    })
-
-    html += "</table>";
-
-    window.addEventListener("DOMContentLoaded", function() {
-        document.getElementById("container").innerHTML = html;
-    }, false);
-
-    // calculando os pontos
-    function calculate() {
-        let p1 = 0, p2 = 0, p3 = 0;
         quest.forEach((q, idx) => {
-            let ans = parseInt(document.getElementById("q" + idx).value);
-            let ptsToAdd = q.answers[ans].points;
-            if (idx <= 4) {
-                p1 += ptsToAdd;
-            } else if (idx <= 7) {
-                p2 += ptsToAdd;
-            } else {
-                p3 += ptsToAdd;
-            }
+            html += "<tr><td>" + q.question + "</td>";
+            html += "<td><select id=\"q" + idx + "\">";
+            q.answers.forEach((a, jdx) => {
+                html += "<option value=\"" + jdx + "\">" + a.text + "</option>";
+            })
+            html += "</select></td></tr>";
         })
-        let r1 = (p1 >= 2) ? 1 : 0,
-            r2 = (p2 >= 2) ? 1 : 0,
-            r3 = (p3 >= 2) ? 1 : 0;
-        
-        let msg = (r1+r2+r3 >= 2) ? "Alto risco" : "Baixo risco";
 
-        alert(msg);
-    }
+        html += "</table>";
+
+        window.addEventListener("DOMContentLoaded", function() {
+            document.getElementById("container").innerHTML = html;
+        }, false);
+
+        // calculando os pontos
+        function calculate() {
+            let p1 = 0, p2 = 0, p3 = 0;
+            quest.forEach((q, idx) => {
+                let ans = parseInt(document.getElementById("q" + idx).value);
+                let ptsToAdd = q.answers[ans].points;
+                if (idx <= 4) {
+                    p1 += ptsToAdd;
+                } else if (idx <= 7) {
+                    p2 += ptsToAdd;
+                } else {
+                    p3 += ptsToAdd;
+                }
+            })
+            let r1 = (p1 >= 2) ? 1 : 0,
+                r2 = (p2 >= 2) ? 1 : 0,
+                r3 = (p3 >= 2) ? 1 : 0;
+            
+
+            let msg = "Categoria 1: " + ((r1 == 1) ? "Positiva" : "Negativa");
+            msg += " // Categoria 2: " + ((r2 == 1) ? "Positiva" : "Negativa");
+            msg += " // Categoria 3: " + ((r3 == 1) ? "Positiva" : "Negativa");
+            msg += "<br/><br/><b>";
+            msg += (r1+r2+r3 >= 2) ? "Alto risco" : "Baixo risco";
+            msg += "</b>"
+
+            document.getElementById("result-container").innerHTML = "<div id=\"result\">" + msg + "</div>";
+
+        }
 
 
-</script>
-
-<p>&nbsp;</p>
-<div id="perguntas">
-    <h3>Alice - Questionário de Berlim</h3>
-    <p>Por favor, assinale a opção que melhor descreva sua resposta.</p>
-    <div id="container"></div>
-    <button id="submit" onclick=calculate()>Submeter</button></div>
+    </script>
+    <div id="content">
+        <h2>Alice - Questionário de Berlim</h2>
+        <div id="container"></div>
+        <div class="btn-container">
+            <button id="submit" onclick=calculate()>Calcular</button>
+        </div>
+        <div id="result-container">
+        </div>
+    </div>
 </body>
+
