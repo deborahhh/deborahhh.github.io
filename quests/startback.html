@@ -1,0 +1,158 @@
+<head>
+
+    <title>Calculadora Alice</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+        * { font-family: 'Montserrat', sans-serif; }
+        h2 { 
+            color: #E10096;
+            font-weight: 600;
+            text-align: center;
+        }
+        p, select, table {
+            font-size: small;
+        }
+        select {
+            width: 240px;
+        }
+        button {
+            background-color: #E10096;
+            border: 0;
+            font-size: large;
+            color: white;
+            padding: 8px 16px;
+        }
+        .btn-container {
+            padding: 20px;
+            text-align: center;
+        }
+        #content {
+            padding: 16px 32px;
+            border: 2px solid #E10096;
+            width: 100%;
+            max-width: 720px;
+        }
+        #result {
+            background-color: #001c69;
+            padding: 16px 32px;
+            position: relative;
+            color: white;
+            font-size: large;
+            text-align: center;
+        }
+
+    </style>
+</head>
+<body>
+    <script>
+
+        // perguntas do questionário
+        let quest = [{
+            question: "Minha dor nas costas se espalhou pelas pernas nas duas últimas semanas.",
+            answers: [
+                { text: "Concordo", points: 1 },
+                { text: "Discordo", points: 0 }
+            ]
+        }, {
+            question: "Eu tive dor no ombro e/ou na nuca pelo menos uma vez nas duas últimas semanas.",
+            answers: [
+                { text: "Concordo", points: 1 },
+                { text: "Discordo", points: 0 }
+            ]
+        }, {
+            question: "Eu evito andar longas distâncias por causa da minha dor nas costas.",
+            answers: [
+                { text: "Concordo", points: 1 },
+                { text: "Discordo", points: 0 }
+            ]
+        }, {
+            question: "Nas duas últimas semanas, tenho me vestido mais devagar por causa da minha dor nas costas.",
+            answers: [
+                { text: "Concordo", points: 1 },
+                { text: "Discordo", points: 0 }
+            ]
+        }, {
+            question: "A atividade física não é realmente segura para uma pessoa com um problemas como o meu.",
+            answers: [
+                { text: "Concordo", points: 1 },
+                { text: "Discordo", points: 0 }
+            ]
+        }, {
+            question: "Tenho ficado preocupado por muito tempo por causa da minha dor nas costas.",
+            answers: [
+                { text: "Concordo", points: 1 },
+                { text: "Discordo", points: 0 }
+            ]
+        }, {
+            question: "Eu sinto que minha dor nas costas é terrível e que nunca vai melhorar.",
+            answers: [
+                { text: "Concordo", points: 1 },
+                { text: "Discordo", points: 0 }
+            ]
+        }, {
+            question: "Em geral, eu não tenho gostado de todas as coisas como eu costumava gostar.",
+            answers: [
+                { text: "Concordo", points: 1 },
+                { text: "Discordo", points: 0 }
+            ]
+        }, {
+            question: "Em geral, quanto a sua dor nas costas o incomodou nas duas últimas semanas? ",
+            answers: [
+                { text: "Nada", points: 0 },
+                { text: "Pouco", points: 1 },
+                { text: "Moderado", points: 1 },
+                { text: "Muito", points: 1 },
+                { text: "Extremamente", points: 1 }
+            ]
+        }]
+
+
+        // renderizando o html
+        let html = "<table>";
+
+        quest.forEach((q, idx) => {
+            html += "<tr><td>" + q.question + "</td>";
+            html += "<td><select id=\"q" + idx + "\">";
+            q.answers.forEach((a, jdx) => {
+                html += "<option value=\"" + jdx + "\">" + a.text + "</option>";
+            })
+            html += "</select></td></tr>";
+        })
+
+        html += "</table>";
+
+        window.addEventListener("DOMContentLoaded", function() {
+            document.getElementById("container").innerHTML = html;
+        }, false);
+
+
+        // calculando os pontos
+        function calculate() {
+            let p1 = 0, p2 = 0;
+            quest.forEach((q, idx) => {
+                let ans = parseInt(document.getElementById("q" + idx).value);
+                let ptsToAdd = q.answers[ans].points;
+                p1 += ptsToAdd;
+                if (idx >= 4) {
+                    p2 += ptsToAdd;
+                }
+            })
+
+            let msg = "Pontuação: " + p1 + "<br/>";
+            msg += (p1 <= 3) ? "Baixo risco" : ((p2 <= 3) ? "Médio risco" : "Alto risco");
+            document.getElementById("result-container").innerHTML = "<div id=\"result\">" + msg + "</div>";
+        }
+
+
+    </script>
+    <div id="content">
+        <h2>Alice - Questionário de Berlim</h2>
+        <div id="container"></div>
+        <div class="btn-container">
+            <button id="submit" onclick=calculate()>Calcular</button>
+        </div>
+        <div id="result-container">
+        </div>
+    </div>
+</body>
+
