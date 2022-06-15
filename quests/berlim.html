@@ -165,7 +165,7 @@
             msg += " // Categoria 2: " + ((r2 == 1) ? "Positiva" : "Negativa");
             msg += " // Categoria 3: " + ((r3 == 1) ? "Positiva" : "Negativa");
             msg += "<br/><br/><b>";
-            msg += (r1+r2+r3 >= 2) ? "Alto risco" : "Baixo risco";
+            msg += (r1+r2+r3 >= 2) ? "Alto risco - Preencher EHR com 1" : "Baixo risco - Preencher EHR com 0";
             msg += "</b>"
 
             document.getElementById("result-container").innerHTML = "<div id=\"result\">" + msg + "</div>";
