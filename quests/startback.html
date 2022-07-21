@@ -49,6 +49,7 @@
         // perguntas do questionário
         let quest = [{
             question: "Minha dor nas costas se espalhou pelas pernas nas duas últimas semanas.",
+            required: true,
             answers: [
                 { text: "", points: null },
                 { text: "Concordo", points: 1 },
@@ -56,6 +57,7 @@
             ]
         }, {
             question: "Eu tive dor no ombro e/ou na nuca pelo menos uma vez nas duas últimas semanas.",
+            required: true,
             answers: [
                 { text: "", points: null },
                 { text: "Concordo", points: 1 },
@@ -63,6 +65,7 @@
             ]
         }, {
             question: "Eu evito andar longas distâncias por causa da minha dor nas costas.",
+            required: true,
             answers: [
                 { text: "", points: null },
                 { text: "Concordo", points: 1 },
@@ -70,6 +73,7 @@
             ]
         }, {
             question: "Nas duas últimas semanas, tenho me vestido mais devagar por causa da minha dor nas costas.",
+            required: true,
             answers: [
                 { text: "", points: null },
                 { text: "Concordo", points: 1 },
@@ -77,6 +81,7 @@
             ]
         }, {
             question: "A atividade física não é realmente segura para uma pessoa com um problemas como o meu.",
+            required: true,
             answers: [
                 { text: "", points: null },
                 { text: "Concordo", points: 1 },
@@ -84,6 +89,7 @@
             ]
         }, {
             question: "Tenho ficado preocupado por muito tempo por causa da minha dor nas costas.",
+            required: true,
             answers: [
                 { text: "", points: null },
                 { text: "Concordo", points: 1 },
@@ -91,6 +97,7 @@
             ]
         }, {
             question: "Eu sinto que minha dor nas costas é terrível e que nunca vai melhorar.",
+            required: true,
             answers: [
                 { text: "", points: null },
                 { text: "Concordo", points: 1 },
@@ -98,6 +105,7 @@
             ]
         }, {
             question: "Em geral, eu não tenho gostado de todas as coisas como eu costumava gostar.",
+            required: true,
             answers: [
                 { text: "", points: null },
                 { text: "Concordo", points: 1 },
@@ -105,6 +113,7 @@
             ]
         }, {
             question: "Em geral, quanto a sua dor nas costas o incomodou nas duas últimas semanas? ",
+            required: true,
             answers: [
                 { text: "", points: null },
                 { text: "Nada", points: 0 },
@@ -120,7 +129,7 @@
         let html = "<table>";
 
         quest.forEach((q, idx) => {
-            html += "<tr><td>" + q.question + "</td>";
+            html += "<tr><td>" + q.question + (q.required ? " *" : "") + "</td>";
             html += "<td><select id=\"q" + idx + "\">";
             q.answers.forEach((a, jdx) => {
                 html += "<option value=\"" + jdx + "\">" + a.text + "</option>";
@@ -137,18 +146,29 @@
 
         // calculando os pontos
         function calculate() {
-            let p1 = 0, p2 = 0;
+            let p1 = 0, p2 = 0, error = false;
             quest.forEach((q, idx) => {
                 let ans = parseInt(document.getElementById("q" + idx).value);
                 let ptsToAdd = q.answers[ans].points;
-                p1 += ptsToAdd;
-                if (idx >= 4) {
-                    p2 += ptsToAdd;
+                if (ptsToAdd != null) {
+                    p1 += ptsToAdd;
+                    if (idx >= 4) {
+                        p2 += ptsToAdd;
+                    }
+                } else if (q.required) {
+                    error = true;
                 }
             })
 
-            let msg = "Pontuação: " + p1 + "<br/>";
-            msg += (p1 <= 3) ? "Baixo risco" : ((p2 <= 3) ? "Médio risco" : "Alto risco");
+            let msg = "";
+
+            if (error) {
+                msg = "ERRO: Preencha todos os campos obrigatórios."
+            } else {
+                msg = "Pontuação: " + p1 + "<br/>";
+                msg += (p1 <= 3) ? "Baixo risco" : ((p2 <= 3) ? "Médio risco" : "Alto risco");
+            }
+
             document.getElementById("result-container").innerHTML = "<div id=\"result\">" + msg + "</div>";
         }
 

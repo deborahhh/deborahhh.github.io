@@ -49,6 +49,7 @@
         // perguntas do questionário
         let quest = [{
             question: "Intensidade da dor",
+            required: true,
             answers: [
                 { text: "", points: null },
                 { text: "Sem dor no momento", points: 0 },
@@ -60,6 +61,7 @@
             ]
         }, {
             question: "Cuidados pessoais (vestir-se, tomar banho, etc)",
+            required: true,
             answers: [
                 { text: "", points: null },
                 { text: "Eu posso cuidar de mim sem provocar dor extra", points: 0 },
@@ -71,6 +73,7 @@
             ]
         }, {
             question: "Pesos",
+            required: true,
             answers: [
                 { text: "", points: null },
                 { text: "Posso levantar coisas pesadas sem causar dor extra.", points: 1 },
@@ -82,6 +85,7 @@
             ]
         }, {
             question: "Andar",
+            required: true,
             answers: [
                 { text: "", points: null },
                 { text: "A dor não me impede de andar (qualquer distância)", points: 0 },
@@ -93,6 +97,7 @@
             ]
         }, {
             question: "Sentar",
+            required: true,
             answers: [
                 { text: "", points: null },
                 { text: "Posso sentar em qualquer tipo de cadeira pelo tempo que quiser", points: 0 },
@@ -104,6 +109,7 @@
             ]
         }, {
             question: "Ficar em pé",
+            required: true,
             answers: [
                 { text: "", points: null },
                 { text: "Posso ficar de pé pelo tempo que quiser sem dor extra", points: 0 },
@@ -115,6 +121,7 @@
             ]
         }, {
             question: "Sono",
+            required: true,
             answers: [
                 { text: "", points: null },
                 { text: "Meu sono não é perturbado por dor", points: 0 },
@@ -126,6 +133,7 @@
             ]
         }, {
             question: "Vida sexual (se aplicável)",
+            required: false,
             answers: [
                 { text: "", points: null },
                 { text: "Minha vida sexual é normal e não me causa dor extra ", points: 0 },
@@ -137,6 +145,7 @@
             ]
         }, {
             question: "Vida social",
+            required: true,
             answers: [
                 { text: "", points: null },
                 { text: "Minha vida social é normal e eu não sinto dor extra ", points: 0 },
@@ -148,6 +157,7 @@
             ]
         }, {
             question: "Viagens",
+            required: true,
             answers: [
                 { text: "", points: null },
                 { text: "Posso viajar para qualquer lugar sem dor", points: 0 },
@@ -164,7 +174,7 @@
         let html = "<table>";
 
         quest.forEach((q, idx) => {
-            html += "<tr><td>" + q.question + "</td>";
+            html += "<tr><td>" + q.question + (q.required ? " *" : "") + "</td>";
             html += "<td><select id=\"q" + idx + "\">";
             q.answers.forEach((a, jdx) => {
                 html += "<option value=\"" + jdx + "\">" + a.text + "</option>";
@@ -181,28 +191,36 @@
 
         // calculando os pontos
         function calculate() {
-            let total = 0, pts = 0;
+            let total = 0, pts = 0, error = false;
             quest.forEach((q, idx) => {
                 let ans = parseInt(document.getElementById("q" + idx).value);
                 let ptsToAdd = q.answers[ans].points;
                 if (ptsToAdd != null) {
                     pts += ptsToAdd;
                     total += 5;
+                } else if (q.required) {
+                    error = true;
                 }
             })
 
             let porc = (pts*100/total).toFixed(1);
-            let msg = "Pontuação: " + porc + "%<br/>";
-            if (porc <= 20) {
-                msg += "Mínima desabilidade, o paciente pode realizar a maioria das atividades diárias. Usualmente não está indicado tratamento, apenas orientação postural e exercícios físicos."
-            } else if (porc <= 40) {
-                msg += "Moderada desabilidade, o paciente tem dor e dificuldade em sentar e levantar. Viajar e a vida social estão prejudicados e podem estar desabeis para o trabalho."
-            } else if (porc <= 60) {
-                msg += "Severamente desabilitados. Dor é o principal problema neste grupo, mas atividades da vida diária estão afetadas. Estes membros requerem uma detalhada investigação."
-            } else if (porc <= 80) {
-                msg += "Incapacidade funcional. Dor interfere com todos os aspectos da vida do paciente. Positiva intervenção é necessário."
+            let msg = "";
+            
+            if (error) {
+                msg = "ERRO: Preencha todos os campos obrigatórios."
             } else {
-                msg += "Membros acamados ou exagerando seus sintomas."
+                msg = "Pontuação: " + porc + "%<br/>";
+                if (porc <= 20) {
+                    msg += "Mínima desabilidade, o paciente pode realizar a maioria das atividades diárias. Usualmente não está indicado tratamento, apenas orientação postural e exercícios físicos."
+                } else if (porc <= 40) {
+                    msg += "Moderada desabilidade, o paciente tem dor e dificuldade em sentar e levantar. Viajar e a vida social estão prejudicados e podem estar desabeis para o trabalho."
+                } else if (porc <= 60) {
+                    msg += "Severamente desabilitados. Dor é o principal problema neste grupo, mas atividades da vida diária estão afetadas. Estes membros requerem uma detalhada investigação."
+                } else if (porc <= 80) {
+                    msg += "Incapacidade funcional. Dor interfere com todos os aspectos da vida do paciente. Positiva intervenção é necessário."
+                } else {
+                    msg += "Membros acamados ou exagerando seus sintomas."
+                }
             }
 
 
