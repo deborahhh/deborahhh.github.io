@@ -50,6 +50,7 @@
         let quest = [{
             question: "Intensidade da dor",
             answers: [
+                { text: "", points: null },
                 { text: "Neste momento não sinto nenhuma dor", points: 0 },
                 { text: "Neste momento a dor é muito fraca", points: 1 },
                 { text: "Neste momento a dor é moderada", points: 2 },
@@ -60,6 +61,7 @@
         }, {
             question: "Cuidados pessoais (lavar-se, vestir-se, etc)",
             answers: [
+                { text: "", points: null },
                 { text: "Posso tratar de mim normalmente sem causar mais dores", points: 0 },
                 { text: "Posso tratar de mim normalmente, mas isso causa-me mais dores", points: 1 },
                 { text: "É doloroso tratar de mim próprio e sou lento(a) e cuidadoso(a)", points: 2 },
@@ -70,6 +72,7 @@
         }, {
             question: "Levantar coisas",
             answers: [
+                { text: "", points: null },
                 { text: "Consigo levantar coisas pesadas sem causar mais dores", points: 0 },
                 { text: "Consigo levantar coisas pesadas mas causa-me mais dores", points: 1 },
                 { text: "A dor impede-me de levantar coisas pesadas do chão, mas posso levantá-las se estiverem convenienetemente colocadas, como por exemplo em cima de uma mesa", points: 2 },
@@ -80,6 +83,7 @@
         }, {
             question: "Leitura",
             answers: [
+                { text: "", points: null },
                 { text: "Posso ler o tempo que quiser sem causar dores no pescoço", points: 0 },
                 { text: "Posso ler o tempo que quiser mas com uma ligeira dor no pescoço", points: 1 },
                 { text: "Posso ler o tempo que quiser mas com dores moderadas no pescoço", points: 2 },
@@ -90,6 +94,7 @@
         }, {
             question: "Dores de cabeça",
             answers: [
+                { text: "", points: null },
                 { text: "Não tenho qualquer dor de cabeça", points: 0 },
                 { text: "Tenho ligeiras dores de cabeça que aparecem de vez em quando", points: 1 },
                 { text: "Tenho dores de cabeça moderadas que aparecem de fez em quando", points: 2 },
@@ -100,6 +105,7 @@
         }, {
             question: "Concentração",
             answers: [
+                { text: "", points: null },
                 { text: "Consigo concentrar-me sem dificuldade", points: 0 },
                 { text: "Consigo concentrar-me, mas com ligeira dificuldade", points: 1 },
                 { text: "Sinto alguma dificuldade em concentrar-me", points: 2 },
@@ -110,6 +116,7 @@
         }, {
             question: "Trabalho / Atividades diárias",
             answers: [
+                { text: "", points: null },
                 { text: "Posso trabalhar tanto quanto eu quiser", points: 0 },
                 { text: "Só consigo fazer o meu trabalho habitual, mas não mais", points: 1 },
                 { text: "Consigo fazer a maior parte do meu trabalho habitual, mas não mais", points: 2 },
@@ -120,6 +127,7 @@
         }, {
             question: "Guiar um carro",
             answers: [
+                { text: "", points: null },
                 { text: "Posso guiar um carro sem qualquer dor no pescoço", points: 0 },
                 { text: "Posso guiar um carro durante o tempo que quiser, mas com uma ligeira dor no pescoço", points: 1 },
                 { text: "Posso guiar um carro durante o tempo que quiser, mas com dores moderadas no pescoço", points: 2 },
@@ -130,6 +138,7 @@
         }, {
             question: "Dormir",
             answers: [
+                { text: "", points: null },
                 { text: "Não tenho dificuldade em dormir", points: 0 },
                 { text: "O meu sono é ligeiramente perturbado (fico sem dormir no máximo 1 hora)", points: 1 },
                 { text: "O meu sono é um bocado perturbado (fico sem dormir entre 1 a 2 horas)", points: 2 },
@@ -140,6 +149,7 @@
         }, {
             question: "Atividades de lazer",
             answers: [
+                { text: "", points: null },
                 { text: "Sou capaz de fazer qualquer das minhas atividades de lazer, sem sentir quaisquer dores no pescoço", points: 0 },
                 { text: "Sou capaz de fazer qualquer das minhas atividades de lazer, mas com algumas dores no pescoço", points: 1 },
                 { text: "Sou capaz de fazer a maior parte das minhas atividades de lazer, mas não todas, devido às dores no pescoço", points: 2 },
@@ -187,7 +197,7 @@
                 msg += "grave"
             }
 
-
+            
             document.getElementById("result-container").innerHTML = "<div id=\"result\">" + msg + "</div>";
         }
 
