@@ -1,0 +1,89 @@
+<head>
+    <title>Calculadoras</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <script type="module">
+        // TODO: descobrir como importar json/dado de fora pra refatorar isso aqui
+        // form data
+        let form = {
+            title: "Quest test",
+            questions: [{
+                question: "quest test",
+                required: true,
+                answers: [
+                    { text: "", points: null },
+                    { text: "a boa", points: 0 },
+                    { text: "a ruim", points: 1 }
+                ]
+            }],
+            results: [
+                { min: 0, max: 0, msg: "os bom" }
+            ]
+        };
+
+        // renderizando o html
+        let html = "<table>";
+
+        form.questions.forEach((q, idx) => {
+            html += "<tr><td>" + q.question + (q.required ? " *" : "") + "</td>";
+            html += "<td><select id=\"q" + idx + "\">";
+            q.answers.forEach((a, jdx) => {
+                html += "<option value=\"" + jdx + "\">" + a.text + "</option>";
+            })
+            html += "</select></td></tr>";
+        })
+
+        html += "</table>";
+
+        window.addEventListener("DOMContentLoaded", function() {
+            document.getElementById("container").innerHTML = html;
+            document.getElementById("title").innerHTML = form.title;
+        });
+
+
+        // calculando os pontos
+        function calculate() {
+            let pts = 0, error = false;
+            form.questions.forEach((q, idx) => {
+                let ans = parseInt(document.getElementById("q" + idx).value);
+                let ptsToAdd = q.answers[ans].points;
+                if (ptsToAdd != null) {
+                    pts += ptsToAdd;
+                } else if (q.required) {
+                    error = true;
+                }
+            })
+
+            let msg = "";
+            if (error) {
+                msg = "ERRO: Preencha todos os campos obrigatórios."
+            } else {
+                for (let i = 0; i < form.results.length; i++) {
+                    const r = form.results[i];
+                    if (pts >= r.min && pts <= r.max) {
+                        msg = "Pontuação: " + pts + "</br>" + r.msg;
+                        break;
+                    }
+                }
+                if (msg == "") {
+                    msg = "Pontuação: " + pts + "</br>(não tem resultado cadastrado para essa pontuação)";
+                }
+            }
+
+            document.getElementById("result-container").innerHTML = "<div id=\"result\">" + msg + "</div>";
+        }
+
+
+    </script>
+    <div id="content">
+        <h2 id="title"></h2>
+        <div id="container"></div>
+        <div class="btn-container">
+            <button id="submit" onclick=calculate()>Calcular</button>
+        </div>
+        <div id="result-container">
+        </div>
+    </div>
+</body>
+
