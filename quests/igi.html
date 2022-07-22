@@ -1,0 +1,158 @@
+<head>
+
+    <title>Calculadora Alice</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <script>
+        
+
+        // perguntas do questionário
+        let quest = [{
+            question: "a) Dificuldade em pegar no sono",
+            required: true,
+            answers: [
+                { text: "", points: null },
+                { text: "Nenhuma", points: 0 },
+                { text: "Leve", points: 1 },
+                { text: "Moderada", points: 2 },
+                { text: "Grave", points: 3 },
+                { text: "Muito grave", points: 4 },
+
+            ]
+        }, {
+            question: "b) Dificuldade em manter o sono",
+            required: true,
+            answers: [
+                { text: "", points: null },
+                { text: "Nenhuma", points: 0 },
+                { text: "Leve", points: 1 },
+                { text: "Moderada", points: 2 },
+                { text: "Grave", points: 3 },
+                { text: "Muito grave", points: 4 }
+            ]
+        }, {
+            question: "c) Problemas de despertar muito cedo",
+            required: true,
+            answers: [
+                { text: "", points: null },
+                { text: "Nenhuma", points: 0 },
+                { text: "Leve", points: 1 },
+                { text: "Moderada", points: 2 },
+                { text: "Grave", points: 3 },
+                { text: "Muito grave", points: 4 }
+            ]
+        }, {
+            question: "2 - Quanto você está satisfeito ou insatisfeito com o padrão atual de seu sono?",
+            required: true,
+            answers: [
+                { text: "", points: null },
+                { text: "Muito satisfeito", points: 0 },
+                { text: "Satisfeito", points: 1 },
+                { text: "Indiferente", points: 2 },
+                { text: "Insatisfeito", points: 3 },
+                { text: "Muito insatisfeito", points: 4 }
+            ]
+        }, {
+            question: "3 - Em que medida você considera que seu problema de sono interfere nas suas atividades diurnas, por exemplo: fadiga diária, habilidade para trabalhar/executar atividades diárias, concentração, memória, humor, etc?",
+            required: true,
+            answers: [
+                { text: "", points: null },
+                { text: "Não interfere", points: 0 },
+                { text: "Um pouco", points: 1 },
+                { text: "Moderadamente", points: 2 },
+                { text: "Muito", points: 3 },
+                { text: "Extremamente", points: 4 }
+            ]
+        }, {
+            question: "4 - Quanto você acha que os outros percebe que o seu problema de sono atrapalha sua qualidade de vida?",
+            required: true,
+            answers: [
+                { text: "", points: null },
+                { text: "Não percebem", points: 0 },
+                { text: "Um pocuo", points: 1 },
+                { text: "Moderadamente", points: 2 },
+                { text: "Muito", points: 3 },
+                { text: "Extremamente", points: 4 }
+            ]
+        }, {
+            question: "5 - O quanto você está preocupado(a)/estressado(a) com o seu problema de sono?",
+            required: true,
+            answers: [
+                { text: "", points: null },
+                { text: "Não estou preocupado", points: 0 },
+                { text: "Um pouco", points: 1 },
+                { text: "Moderadamente", points: 2 },
+                { text: "Muito", points: 3 },
+                { text: "Extremamente", points: 4 }
+            ]
+        }]
+
+
+        // renderizando o html
+        let html = "<table>";
+        html += "<tr><td>1. Por favor, avalie a gravidade da sua insônia nas duas últimas semanas, em relação a:</td></tr>";
+    
+
+        quest.forEach((q, idx) => {
+            html += "<tr><td>" + q.question + "</td>";
+            html += "<td><select id=\"q" + idx + "\">";
+            q.answers.forEach((a, jdx) => {
+                html += "<option value=\"" + jdx + "\">" + a.text + "</option>";
+            })
+            html += "</select></td></tr>";
+        })
+
+        html += "</table>";
+
+        window.addEventListener("DOMContentLoaded", function() {
+            document.getElementById("container").innerHTML = html;
+        }, false);
+
+        // calculando os pontos
+        function calculate() {
+            let pts = 0, error = false;
+            quest.forEach((q, idx) => {
+                let ans = parseInt(document.getElementById("q" + idx).value);
+                let ptsToAdd = q.answers[ans].points;
+                if (ptsToAdd != null) {
+                    pts += ptsToAdd; 
+                } else if (q.required) {
+                    error = true;
+                }
+            })
+
+            let msg = "";
+
+            if (error) {
+                msg = "ERRO: Preencha todos os campos obrigatórios."
+            } else {
+                msg = "Pontuação: " + pts + " - ";
+                if (pts <= 7) {
+                    msg += "Ausência de insônia significativa"
+                } else if (pts <= 14) {
+                    msg += "Limite inferior para insônia"
+                } else if (pts <= 21) {
+                    msg += "Insônia clínica moderada"
+                } else {
+                    msg += "Insônia clínica grave"
+                }
+            }
+
+            
+            document.getElementById("result-container").innerHTML = "<div id=\"result\">" + msg + "</div>";
+        }
+
+
+    </script>
+    <div id="content">
+        <h2>Sono - Indice de Gravidade da Insônia (IGI)</h2>
+        <div id="container"></div>
+        <div class="btn-container">
+            <button id="submit" onclick=calculate()>Calcular</button>
+        </div>
+        <div id="result-container">
+        </div>
+    </div>
+</body>
+
